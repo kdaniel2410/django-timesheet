@@ -1,0 +1,33 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+
+<h1>Job Table</h1>
+
+{% if jobs %}
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Hourly Rate</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in jobs %}
+    <tr>
+      <td>{{ job.title }}</td>
+      <td>{{ job.currency }}{{ job.hourly_rate | floatformat:"2" }}</td>
+      <td>
+        <a href="{% url 'period_list' job.pk %}">Periods</a>
+        <a href="{% url 'job_update' job.pk %}">Update</a>
+        <a href="{% url 'job_delete' job.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>There are no jobs</p>
+{% endif %}
+<a class="pure-button" href="{% url "job_create" %}">Create Job</a>
+{% endblock content %}

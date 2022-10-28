@@ -1,0 +1,41 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+
+<h1>{{ shifts.0.period }} Shift Table</h1>
+<p>
+  <a class="pure-button" href="{% url "period_list" view.kwargs.job_pk %}">View Periods</a>
+  <a class="pure-button" href="{% url "shift_list" view.kwargs.job_pk view.kwargs.period_pk %}">List View</a>
+  <a class="pure-button" href="{% url "shift_create" view.kwargs.job_pk view.kwargs.period_pk %}">Create Shift</a>
+</p>
+{% if shifts %}
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Length</th>
+      <th>Income</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for shift in shifts %}
+    <tr>
+      <td>{{ shift.start | date:"l j F" }}</td>
+      <td>{{ shift.start | time:"G:i" }}</td>
+      <td>{{ shift.length | floatformat:2 }} hours</td>
+      <td>
+        {{ shift.period.job.currency }}{{ shift.income | floatformat:"2" }}
+      </td>
+      <td>
+        <a href="{% url 'shift_update' shift.pk %}">Update</a>
+        <a href="{% url 'shift_delete' shift.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>There are currently no shifts</p>
+{% endif %}
+{% endblock content %}

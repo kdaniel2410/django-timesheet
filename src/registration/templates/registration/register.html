@@ -1,0 +1,19 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+
+<h1>Login</h1>
+
+{% if user.is_authenticated %}
+<p>
+  You are already logged in!
+</p>
+{% else %}
+<form class="pure-form" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="pure-button pure-button-primary" type="submit">
+    Register
+  </button>
+</form>
+{% endif %}
+{% endblock %}

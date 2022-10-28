@@ -1,0 +1,10 @@
+.content {
+  width: 70%;
+  min-width: 500px;
+  margin: auto;
+}
+
+table {
+  margin: auto;
+  margin-bottom: 7px;
+}
