@@ -1,0 +1,21 @@
+{% extends 'jobs/base.html' %} {% block content %}
+
+<h1>Create/Update Period</h1>
+<p><a href="{% url 'period_list' %}">Period List</a></p>
+
+<form method="POST">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+
+<p>
+  Click
+  <a
+    href="https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-DATETIME_INPUT_FORMATS"
+    target="_blank"
+    >here</a
+  >
+  to see a list of accepted date and date-time formats
+</p>
+
+{% endblock content %}

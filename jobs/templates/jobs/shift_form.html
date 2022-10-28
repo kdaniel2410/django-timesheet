@@ -1,0 +1,11 @@
+{% extends 'jobs/base.html' %} {% block content %}
+
+<h1>Create/Update Shift</h1>
+<p><a href="{% url 'shift_list' %}">Shift List</a></p>
+
+<form method="POST">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+
+{% endblock content %}

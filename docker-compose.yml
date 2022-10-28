@@ -1,0 +1,7 @@
+version: '3'
+services:
+  timesheet:
+    build: .
+    container_name: timesheet
+    image: timesheet:latest
+    restart: unless-stopped

@@ -1,0 +1,20 @@
+{% extends "jobs/base.html" %} {% block content %}
+
+<h1>Login</h1>
+
+{% if user.is_authenticated %}
+<p>
+  You are already logged in!
+  <a href="{% url 'registration_logout' %}">Logout</a>
+</p>
+{% else %}
+<p>
+  Don't have an account?
+  <a href="{% url 'registration_register' %}">Register</a>
+</p>
+
+<form method="POST">
+  {% csrf_token %} {{ form.as_p }}
+  <button class="pure-button pure-button-primary" type="submit">Login</button>
+</form>
+{% endif %} {% endblock %}

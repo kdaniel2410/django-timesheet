@@ -1,0 +1,37 @@
+{% extends 'jobs/base.html' %} {% block content %}
+
+<h1>Job List</h1>
+<p>
+  <a href="{% url 'registration_logout' %}">Logout</a>
+  <a href="{% url 'period_list' %}">Period List</a>
+  <a href="{% url 'shift_list' %}">Shift List</a>
+  <a href="{% url 'job_create' %}">Create Job</a>
+</p>
+
+{% if jobs %}
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Title</th>
+      <th>Hourly Rate</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in jobs %}
+    <tr>
+      <td>{{ job.company }}</td>
+      <td>{{ job.title }}</td>
+      <td>{{ job.currency }}{{ job.hourly_rate | floatformat:"2" }}</td>
+      <td>
+        <a href="{% url 'job_update' job.pk %}">Update</a>
+        <a href="{% url 'job_delete' job.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>There are currently no jobs</p>
+{% endif %} {% endblock content %}
