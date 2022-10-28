@@ -1,8 +1,0 @@
-services:
-  timesheet:
-    environment:
-      # Generate secret Key: https://django-secret-key-generator.netlify.app/
-      - SECRET_KEY=YOUR_SECRET_KEY_HERE
-    ports:
-      - 8000:8000
-    

@@ -3,5 +3,10 @@ services:
   timesheet:
     build: .
     container_name: timesheet
+    environment:
+      # Generate secret Key: https://django-secret-key-generator.netlify.app/
+      - SECRET_KEY=YOUR_SECRET_KEY_HERE
     image: timesheet:latest
+    ports:
+      - 8000:8000
     restart: unless-stopped
