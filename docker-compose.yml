@@ -14,4 +14,7 @@ services:
     container_name: timesheetdb
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
     image: postgres:13
+    restart: unless-stopped
