@@ -84,16 +84,6 @@ class ShiftListView(LoginRequiredMixin, ListView):
     model = models.Shift
     context_object_name = "shifts"
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ShiftListView, self).get_context_data(*args, **kwargs)
-        return {
-            **context,
-            **models.Shift.objects.aggregate(
-                total_hours=Sum("length"),
-                total_income=Sum("length") * F("period__job__hourly_rate"),
-            ),
-        }
-
 
 class ShiftCreateView(LoginRequiredMixin, CreateView):
     model = models.Shift
