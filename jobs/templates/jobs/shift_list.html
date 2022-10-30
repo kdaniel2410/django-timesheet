@@ -37,11 +37,6 @@
     {% endfor %}
   </tbody>
 </table>
-<h2>Summary</h2>
-<p>
-  Total Hours: {{ total_hours | floatformat }}<br />
-  Total Income: £{{ total_income | floatformat:"2" }}
-</p>
 {% else %}
 <p>There are currently no shifts</p>
 {% endif %} {% endblock content %}

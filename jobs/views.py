@@ -52,16 +52,6 @@ class PeriodShiftListView(LoginRequiredMixin, ListView):
             .filter(period=self.kwargs["pk"])
         )
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(PeriodShiftListView, self).get_context_data(*args, **kwargs)
-        return {
-            **context,
-            **models.Shift.objects.filter(period=self.kwargs["pk"]).aggregate(
-                total_hours=Sum("length"),
-                total_income=Sum("length") * F("period__job__hourly_rate"),
-            ),
-        }
-
 
 class PeriodCreateView(LoginRequiredMixin, CreateView):
     model = models.Period
