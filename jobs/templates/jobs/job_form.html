@@ -2,7 +2,7 @@
 
 <h1>Create/Update Job</h1>
 
-<form method="POST">
+<form class="pure-form" method="POST">
   {% csrf_token %} {{ form.as_p }}
   <button class="pure-button pure-button-primary" type="submit">Create Job</button>
 </form>
