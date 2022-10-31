@@ -7,7 +7,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import F, Sum
+from django.db.models import Count, F, Sum
 
 
 class JobListView(LoginRequiredMixin, ListView):
@@ -27,7 +27,7 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 
 class JobUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Job
-    fields = "__all__"
+    fields = ["company", "title", "currency", "hourly_rate"]
     success_url = "/"
 
 
@@ -38,7 +38,11 @@ class JobDeleteView(LoginRequiredMixin, DeleteView):
 
 class PeriodListView(LoginRequiredMixin, ListView):
     context_object_name = "periods"
-    model = models.Period
+    queryset = models.Period.objects.all().annotate(
+        shifts=Count("shift"),
+        hours=Sum("shift__length"),
+        income=Sum("shift__length") * F("job__hourly_rate"),
+    )
 
 
 class PeriodShiftListView(LoginRequiredMixin, ListView):

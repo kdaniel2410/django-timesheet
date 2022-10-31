@@ -1,12 +1,6 @@
 {% extends 'jobs/base.html' %} {% block content %}
 
 <h1>Job List</h1>
-<p>
-  <a href="{% url 'registration_logout' %}">Logout</a>
-  <a href="{% url 'period_list' %}">Period List</a>
-  <a href="{% url 'shift_list' %}">Shift List</a>
-  <a href="{% url 'job_create' %}">Create Job</a>
-</p>
 
 {% if jobs %}
 <table class="pure-table">
