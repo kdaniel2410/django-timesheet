@@ -3,7 +3,7 @@
 <h1>Delete Shift</h1>
 <p><a href="{% url 'shift_list' %}">Shift List</a></p>
 
-<form method="POST">
+<form class="pure-form" method="POST">
   {% csrf_token %}
   <p>Are you sure you want to delete "{{ object }}"?</p>
   <button class="pure-button pure-button-primary" type="submit">

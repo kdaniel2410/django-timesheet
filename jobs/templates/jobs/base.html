@@ -15,6 +15,28 @@
     <title>Timesheet{% block title %}{% endblock title %}</title>
   </head>
   <body>
+    <div class="pure-menu pure-menu-horizontal">
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item">
+          <a href="{% url "job_list" %}" class="pure-menu-link">Jobs</a>
+        </li>
+        <li class="pure-menu-item">
+          <a href="{% url "period_list" %}" class="pure-menu-link">Periods</a>
+        </li>
+        <li class="pure-menu-item">
+          <a href="{% url "shift_list" %}" class="pure-menu-link">Shifts</a>
+        </li>
+        <li class="pure-menu-item">
+          <a href="{% url "registration_login" %}" class="pure-menu-link">Login</a>
+        </li>
+        <li class="pure-menu-item">
+          <a href="{% url "registration_logout" %}" class="pure-menu-link">Logout</a>
+        </li>
+        <li class="pure-menu-item">
+          <a href="{% url "registration_register" %}" class="pure-menu-link">Register</a>
+        </li>
+      </ul>
+    </div>
     <div class="content">{% block content %}{% endblock content %}</div>
   </body>
 </html>

@@ -13,7 +13,7 @@
   <a href="{% url 'registration_register' %}">Register</a>
 </p>
 
-<form method="POST">
+<form class="pure-form" method="POST">
   {% csrf_token %} {{ form.as_p }}
   <button class="pure-button pure-button-primary" type="submit">Login</button>
 </form>
