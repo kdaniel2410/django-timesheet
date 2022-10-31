@@ -14,6 +14,9 @@
       <th>Job</th>
       <th>Cutoff</th>
       <th>Payday</th>
+      <th>Shifts</th>
+      <th>Hours</th>
+      <th>Income</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -23,6 +26,9 @@
       <td>{{ period.job }}</td>
       <td>{{ period.cutoff | date }}</td>
       <td>{{ period.payday | date }}</td>
+      <td>{{ period.shifts }}</td>
+      <td>{{ period.hours | floatformat:1 }}</td>
+      <td>{{ period.job.currency }}{{ period.income | floatformat:2 }}</td>
       <td>
         <a href="{% url 'period_shift_list' period.pk %}">Shifts</a>
         <a href="{% url 'period_update' period.pk %}">Update</a>
