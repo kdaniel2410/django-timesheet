@@ -1,7 +1,6 @@
 {% extends 'jobs/base.html' %} {% block content %}
 
 <h1>Delete Job</h1>
-<p><a href="{% url 'job_list' %}">Job List</a></p>
 
 <form method="POST">
   {% csrf_token %}

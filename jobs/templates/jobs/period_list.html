@@ -1,4 +1,5 @@
-{% extends 'jobs/base.html' %} {% block content %}
+{% extends 'jobs/base.html' %}
+{% block content %}
 
 <h1>Period List</h1>
 
@@ -22,8 +23,8 @@
       <td>{{ period.cutoff | date }}</td>
       <td>{{ period.payday | date }}</td>
       <td>{{ period.shifts }}</td>
-      <td>{{ period.hours | floatformat:1 }}</td>
-      <td>{{ period.job.currency }}{{ period.income | floatformat:2 }}</td>
+      <td>{% if period.hours %}{{ period.hours | floatformat:1 }}{% else %}0{% endif %}</td>
+      <td>{{ period.job.currency }}{% if period.income %}{{ period.income | floatformat:2 }}{% else %}0{% endif %}</td>
       <td>
         <a href="{% url 'period_shift_list' period.pk %}">Shifts</a>
         <a href="{% url 'period_update' period.pk %}">Update</a>
@@ -35,4 +36,6 @@
 </table>
 {% else %}
 <p>There are currently no periods</p>
-{% endif %} {% endblock content %}
+{% endif %}
+<a class="pure-button" href="{% url "period_create" %}">Create Period</a>
+{% endblock content %}

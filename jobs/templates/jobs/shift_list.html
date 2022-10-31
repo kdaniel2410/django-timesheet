@@ -1,4 +1,5 @@
-{% extends 'jobs/base.html' %} {% block content %}
+{% extends 'jobs/base.html' %}
+{% block content %}
 
 <h1>Shift List</h1>
 
@@ -39,4 +40,6 @@
 </p>
 {% else %}
 <p>There are currently no shifts</p>
-{% endif %} {% endblock content %}
+{% endif %}
+<a class="pure-button" href="{% url "shift_create" %}">Create Shift</a>
+{% endblock content %}

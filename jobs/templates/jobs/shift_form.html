@@ -2,9 +2,13 @@
 
 <h1>Create/Update Shift</h1>
 
-<form class="pure_form" method="POST">
+<form class="pure-form" method="POST">
   {% csrf_token %} {{ form.as_p }}
   <button class="pure-button pure-button-primary" type="submit">Create</button>
 </form>
+
+<p>
+  Click <a href="https://www.calculator.net/time-duration-calculator.html">here</a> to calculate the number of hours between two times
+</p>
 
 {% endblock content %}
