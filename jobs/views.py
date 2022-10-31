@@ -27,7 +27,7 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 
 class JobUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Job
-    fields = "__all__"
+    fields = ["company", "title", "currency", "hourly_rate"]
     success_url = "/"
 
 
