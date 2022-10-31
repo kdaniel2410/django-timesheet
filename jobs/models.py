@@ -25,9 +25,6 @@ class Period(models.Model):
     def __str__(self):
         return f"{self.job} {self.cutoff}"
 
-    class Meta:
-        ordering = ["-cutoff"]
-
 
 class Shift(models.Model):
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
@@ -42,4 +39,4 @@ class Shift(models.Model):
         return f"{self.length} hours on {self.start}"
 
     class Meta:
-        ordering = ["-start"]
+        ordering = ["start"]

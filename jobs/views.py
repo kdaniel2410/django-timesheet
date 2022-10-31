@@ -42,7 +42,7 @@ class PeriodListView(LoginRequiredMixin, ListView):
         shifts=Count("shift"),
         hours=Sum("shift__length"),
         income=Sum("shift__length") * F("job__hourly_rate"),
-    )
+    ).order_by("cutoff")
 
 
 class PeriodShiftListView(LoginRequiredMixin, ListView):

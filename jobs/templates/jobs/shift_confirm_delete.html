@@ -1,7 +1,6 @@
 {% extends 'jobs/base.html' %} {% block content %}
 
 <h1>Delete Shift</h1>
-<p><a href="{% url 'shift_list' %}">Shift List</a></p>
 
 <form class="pure-form" method="POST">
   {% csrf_token %}
