@@ -26,15 +26,18 @@
         <li class="pure-menu-item">
           <a href="{% url "shift_list" %}" class="pure-menu-link">Shifts</a>
         </li>
+        {% if user.is_authenticated %}
+        <li class="pure-menu-item">
+          <a href="{% url "registration_logout" %}" class="pure-menu-link">Logout</a>
+        </li>
+        {% else %}
         <li class="pure-menu-item">
           <a href="{% url "registration_login" %}" class="pure-menu-link">Login</a>
         </li>
         <li class="pure-menu-item">
-          <a href="{% url "registration_logout" %}" class="pure-menu-link">Logout</a>
-        </li>
-        <li class="pure-menu-item">
           <a href="{% url "registration_register" %}" class="pure-menu-link">Register</a>
         </li>
+        {% endif %}
       </ul>
     </div>
     <div class="content">{% block content %}{% endblock content %}</div>
