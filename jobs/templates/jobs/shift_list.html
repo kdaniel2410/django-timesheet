@@ -1,11 +1,6 @@
 {% extends 'jobs/base.html' %} {% block content %}
 
 <h1>Shift List</h1>
-<p>
-  <a href="{% url 'job_list' %}">Job List</a>
-  <a href="{% url 'period_list' %}">Period List</a>
-  <a href="{% url 'shift_create' %}">Create Shift</a>
-</p>
 
 {% if shifts %}
 <table class="pure-table">
