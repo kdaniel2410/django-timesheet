@@ -112,5 +112,5 @@ class ShiftUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ShiftDeleteView(LoginRequiredMixin, DeleteView):
-    model = models.Job
+    model = models.Shift
     success_url = reverse_lazy("shift_list")
