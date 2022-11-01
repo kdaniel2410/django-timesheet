@@ -23,7 +23,7 @@ class Period(models.Model):
     payday = models.DateField()
 
     def __str__(self):
-        return f"{self.job} {self.cutoff}"
+        return f"Period (ID: {self.pk})"
 
 
 class Shift(models.Model):
