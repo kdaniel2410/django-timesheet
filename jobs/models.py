@@ -39,4 +39,4 @@ class Shift(models.Model):
         return f"{self.length} hours on {self.start}"
 
     class Meta:
-        ordering = ["start"]
+        ordering = ["-start"]
