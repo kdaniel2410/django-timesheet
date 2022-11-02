@@ -14,6 +14,9 @@ class JobListView(LoginRequiredMixin, ListView):
     context_object_name = "jobs"
     model = models.Job
 
+    def get_queryset(self):
+        return super(JobListView, self).get_queryset().filter(user=self.request.user)
+
 
 class JobCreateView(LoginRequiredMixin, CreateView):
     model = models.Job
@@ -38,11 +41,20 @@ class JobDeleteView(LoginRequiredMixin, DeleteView):
 
 class PeriodListView(LoginRequiredMixin, ListView):
     context_object_name = "periods"
-    queryset = models.Period.objects.all().annotate(
-        shifts=Count("shift"),
-        hours=Sum("shift__length"),
-        income=Sum("shift__length") * F("job__hourly_rate"),
-    ).order_by("-cutoff")
+    model = models.Period
+
+    def get_queryset(self):
+        return (
+            super(PeriodListView, self)
+            .get_queryset()
+            .filter(job__user=self.request.user)
+            .annotate(
+                shifts=Count("shift"),
+                hours=Sum("shift__length"),
+                income=Sum("shift__length") * F("job__hourly_rate"),
+            )
+            .order_by("-cutoff")
+        )
 
 
 class PeriodShiftListView(LoginRequiredMixin, ListView):
@@ -77,6 +89,9 @@ class PeriodDeleteView(LoginRequiredMixin, DeleteView):
 class ShiftListView(LoginRequiredMixin, ListView):
     model = models.Shift
     context_object_name = "shifts"
+
+    def get_queryset(self):
+        return super(ShiftListView, self).get_queryset().filter(period__job__user=self.request.user)
 
 
 class ShiftCreateView(LoginRequiredMixin, CreateView):
