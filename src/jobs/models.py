@@ -36,7 +36,7 @@ class Shift(models.Model):
         if self.finish:
             delta = self.finish - self.start
             self.length = delta.total_seconds() / (60 * 60)
-        elif self.length:
+        elif self.length >= 0:
             self.finish = self.start + timedelta(hours=self.length)
         self.income = self.length * self.period.job.hourly_rate
         super().save(*args, **kwargs)
