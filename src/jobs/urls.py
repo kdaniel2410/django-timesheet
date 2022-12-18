@@ -16,6 +16,8 @@ urlpatterns = [
     path("jobs/<int:job_pk>/periods/<int:period_pk>/shifts/", views.ShiftListView.as_view(), name="shift_list"),
     path("jobs/<int:job_pk>/periods/<int:period_pk>/shifts/table/", views.ShiftTableView.as_view(), name="shift_table"),
     path("jobs/<int:job_pk>/periods/<int:period_pk>/shifts/create/", views.ShiftCreateView.as_view(), name="shift_create"),
+    path("jobs/<int:job_pk>/periods/<int:period_pk>/shifts/create/length/", views.ShiftCreateViewAlt.as_view(), name="shift_create_alt"),
     path("shifts/<int:pk>/update/", views.ShiftUpdateView.as_view(), name="shift_update"),
+    path("shifts/<int:pk>/update/length/", views.ShiftUpdateViewAlt.as_view(), name="shift_update_alt"),
     path("shifts/<int:pk>/delete/", views.ShiftDeleteView.as_view(), name="shift_delete"),
 ]

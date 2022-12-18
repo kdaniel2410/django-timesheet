@@ -114,7 +114,7 @@ class ShiftTableView(ShiftListView):
 
 class ShiftCreateView(LoginRequiredMixin, CreateView):
     model = models.Shift
-    fields = ["start", "length"]
+    fields = ["start", "finish"]
 
     def form_valid(self, form):
         form.instance.period = models.Period.objects.get(
@@ -125,9 +125,13 @@ class ShiftCreateView(LoginRequiredMixin, CreateView):
         return reverse("shift_list", kwargs=self.kwargs)
 
 
+class ShiftCreateViewAlt(ShiftCreateView):
+    fields = ["start", "length"]
+
+
 class ShiftUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Shift
-    fields = ["period", "start", "length"]
+    fields = ["period", "start", "finish"]
 
     def get_success_url(self):
         return reverse(
@@ -137,6 +141,10 @@ class ShiftUpdateView(LoginRequiredMixin, UpdateView):
                 "period_pk": self.object.period.id
             }
         )
+
+
+class ShiftUpdateViewAlt(ShiftUpdateView):
+    fields = ["period", "start", "length"]
 
 
 class ShiftDeleteView(LoginRequiredMixin, DeleteView):

@@ -2,25 +2,27 @@
 {% block content %}
 
 <h1>{{ shifts.0.period }} Shift List</h1>
-<p>
-  <a class="pure-button" href="{% url "period_list" view.kwargs.job_pk %}">View Periods</a>
-  <a class="pure-button" href="{% url "shift_table" view.kwargs.job_pk view.kwargs.period_pk %}">Table View</a>
+<a class="pure-button" href="{% url "period_list" view.kwargs.job_pk %}">Back to Period</a>
+<span class="pure-button-group" role="group">
   <a class="pure-button" href="{% url "shift_create" view.kwargs.job_pk view.kwargs.period_pk %}">Create Shift</a>
-</p>
+  <a class="pure-button" href="{% url "shift_create_alt" view.kwargs.job_pk view.kwargs.period_pk %}">Create Shift (L)</a>
+  <a class="pure-button" href="{% url "shift_table" view.kwargs.job_pk view.kwargs.period_pk %}">Table View</a>
+</span>
 {% if shifts %}
   {% for shift in shifts %}
   <h2>{{ shift }}</h2>
   <p>
     <b>Job</b> {{ shift.period.job }}<br>
-    <b>Date</b> {{ shift.start | date:"l j F" }} 
-    <b>Time</b> {{ shift.start | time:"G:i" }}<br>
+    <b>Start</b> {{ shift.start }}<br>
+    <b>Finish</b> {{ shift.finish }}<br>
     <b>Length</b> {{ shift.length | floatformat:2 }} hours<br>
     <b>Income</b> {{ shift.period.job.currency }}{{ shift.income | floatformat:"2" }}<br>
   </p>
-  <p>
+  <div class="pure-button-group" role="group">
     <a class="pure-button" href="{% url 'shift_update' shift.pk %}">Update</a>
+    <a class="pure-button" href="{% url 'shift_update_alt' shift.pk %}">Update (L)</a>
     <a class="pure-button" href="{% url 'shift_delete' shift.pk %}">Delete</a>
-  </p>
+  </div>
   {% endfor %}
 {% else %}
 <p>There are currently no shifts</p>

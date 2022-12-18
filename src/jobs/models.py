@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import timedelta
 
 
 class Job(models.Model):
@@ -28,10 +28,16 @@ class Period(models.Model):
 class Shift(models.Model):
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
     start = models.DateTimeField()
+    finish = models.DateTimeField()
     length = models.FloatField(default=0)
     income = models.FloatField()
 
     def save(self, *args, **kwargs):
+        if self.finish:
+            delta = self.finish - self.start
+            self.length = delta.total_seconds() / (60 * 60)
+        elif self.length:
+            self.finish = self.start + timedelta(hours=self.length)
         self.income = self.length * self.period.job.hourly_rate
         super().save(*args, **kwargs)
 
