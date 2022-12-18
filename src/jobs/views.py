@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Sum
 from django.urls import reverse, reverse_lazy
@@ -119,6 +120,8 @@ class ShiftCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.period = models.Period.objects.get(
             pk=self.kwargs.get("period_pk"))
+        delta = form.instance.finish - form.instance.start
+        form.instance.length = delta.total_seconds() / (60 * 60)
         return super(ShiftCreateView, self).form_valid(form)
 
     def get_success_url(self):
@@ -128,10 +131,19 @@ class ShiftCreateView(LoginRequiredMixin, CreateView):
 class ShiftCreateViewAlt(ShiftCreateView):
     fields = ["start", "length"]
 
+    def form_valid(self, form):
+        form.instance.finish = form.instance.start + timedelta(hours=form.instance.length)
+        return super(ShiftCreateViewAlt, self).form_valid(form)
+
 
 class ShiftUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Shift
     fields = ["period", "start", "finish"]
+
+    def form_valid(self, form):
+        delta = form.instance.finish - form.instance.start
+        form.instance.length = delta.total_seconds() / (60 * 60)
+        return super(ShiftUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse(
@@ -145,6 +157,10 @@ class ShiftUpdateView(LoginRequiredMixin, UpdateView):
 
 class ShiftUpdateViewAlt(ShiftUpdateView):
     fields = ["period", "start", "length"]
+
+    def form_valid(self, form):
+        form.instance.finish = form.instance.start + timedelta(hours=form.instance.length)
+        return super(ShiftUpdateViewAlt, self).form_valid(form)
 
 
 class ShiftDeleteView(LoginRequiredMixin, DeleteView):
