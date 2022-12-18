@@ -1,11 +1,10 @@
 .content {
   width: 70%;
-  min-width: 500px;
   margin: auto;
 }
 
 table {
   margin: auto;
   margin-top: 10px;
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
