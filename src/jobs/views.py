@@ -11,13 +11,14 @@ from django.views.generic import (
 from . import models
 
 
-class JobTableView(LoginRequiredMixin, ListView):
+class JobListView(LoginRequiredMixin, ListView):
     context_object_name = "jobs"
     model = models.Job
-    template_name = 'jobs/job_table.html'
 
     def get_queryset(self):
-        return super(JobTableView, self).get_queryset().filter(user=self.request.user)
+        return super(JobListView, self).get_queryset().filter(user=self.request.user).annotate(
+            count=Count("periods"),
+        )
 
 
 class JobCreateView(LoginRequiredMixin, CreateView):
@@ -51,16 +52,12 @@ class PeriodListView(LoginRequiredMixin, ListView):
             .get_queryset()
             .filter(job=self.kwargs.get("job_pk"))
             .annotate(
-                shifts=Count("shift"),
-                hours=Sum("shift__length"),
-                income=Sum("shift__income"),
+                count=Count("shifts"),
+                hours=Sum("shifts__length"),
+                income=Sum("shifts__income"),
             )
             .order_by("-cutoff")
         )
-
-
-class PeriodTableView(PeriodListView):
-    template_name = 'jobs/period_table.html'
 
 
 class PeriodCreateView(LoginRequiredMixin, CreateView):
@@ -109,10 +106,6 @@ class ShiftListView(LoginRequiredMixin, ListView):
         return super(ShiftListView, self).get_queryset().filter(period=self.kwargs.get("period_pk"))
 
 
-class ShiftTableView(ShiftListView):
-    template_name = 'jobs/shift_table.html'
-
-
 class ShiftCreateView(LoginRequiredMixin, CreateView):
     model = models.Shift
     fields = ["start", "finish"]
@@ -132,7 +125,8 @@ class ShiftCreateViewAlt(ShiftCreateView):
     fields = ["start", "length"]
 
     def form_valid(self, form):
-        form.instance.finish = form.instance.start + timedelta(hours=form.instance.length)
+        form.instance.finish = form.instance.start + \
+            timedelta(hours=form.instance.length)
         return super(ShiftCreateViewAlt, self).form_valid(form)
 
 
@@ -159,7 +153,8 @@ class ShiftUpdateViewAlt(ShiftUpdateView):
     fields = ["period", "start", "length"]
 
     def form_valid(self, form):
-        form.instance.finish = form.instance.start + timedelta(hours=form.instance.length)
+        form.instance.finish = form.instance.start + \
+            timedelta(hours=form.instance.length)
         return super(ShiftUpdateViewAlt, self).form_valid(form)
 
 

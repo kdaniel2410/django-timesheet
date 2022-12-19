@@ -1,29 +1,23 @@
 {% extends 'jobs/base.html' %}
 {% block content %}
-
 <h1>{{ periods.0.job }} Period List</h1>
 <a class="pure-button" href="{% url "job_table" %}">Back to Job</a>
-<span class="pure-button-group" role="group">
-  <a class="pure-button" href="{% url "period_create" view.kwargs.job_pk %}">Create Period</a>
-  <a class="pure-button" href="{% url "period_table" view.kwargs.job_pk %}">Table View</a>
-</span>
-{% if periods %}
-    {% for period in periods %}
-    <h2>{{ period }}</h2>
-    <p>
-      <b>Cutoff</b> {{ period.cutoff | date }}<br>
-      <b>Payday</b> {{ period.payday | date }}<br>
-      <b>Shifts</b> {{ period.shifts }}<br>
-      <b>Hours</b> {% if period.hours %}{{ period.hours | floatformat:2 }}{% else %}0{% endif %}<br>
-      <b>Income</b> {{ period.job.currency }}{% if period.income %}{{ period.income | floatformat:2 }}{% else %}0{% endif %}<br>
-    </p>
-    <div class="pure-button-group" role="group">
-      <a class="pure-button" href="{% url 'shift_list' period.job.pk period.pk %}">View</a>
-      <a class="pure-button" href="{% url 'period_update' period.pk %}">Update</a>
-      <a class="pure-button" href="{% url 'period_delete' period.pk %}">Delete</a>
-    </div>
-    {% endfor %}
-{% else %}
+<a class="pure-button" href="{% url "period_create" view.kwargs.job_pk %}">Create Period</a>
+{% for period in periods %}
+<h2>{{ period }}</h2>
+<p>
+  <b>Cutoff</b> {{ period.cutoff | date }}<br>
+  <b>Payday</b> {{ period.payday | date }}<br>
+  <b>Shifts</b> {{ period.count }}<br>
+  <b>Hours</b> {% if period.hours %}{{ period.hours | floatformat:2 }}{% else %}0{% endif %}<br>
+  <b>Income</b> {{ period.job.currency }}{% if period.income %}{{ period.income | floatformat:2 }}{% else %}0{% endif %}<br>
+</p>
+<div class="pure-button-group" role="group">
+  <a class="pure-button" href="{% url 'shift_list' period.job.pk period.pk %}">View</a>
+  <a class="pure-button" href="{% url 'period_update' period.pk %}">Update</a>
+  <a class="pure-button" href="{% url 'period_delete' period.pk %}">Delete</a>
+</div>
+{% empty %}
 <p>There are currently no periods</p>
-{% endif %}
+{% endfor %}
 {% endblock content %}

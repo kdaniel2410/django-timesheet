@@ -1,0 +1,19 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<h1>Job List</h1>
+<a class="pure-button" href="{% url "job_create" %}">Create Job</a>
+{% for job in jobs %}
+<h2>{{ job }}</h2>
+<p>
+  <b>Hourly Rate</b> {{ job.currency }}{{ job.hourly_rate }}<br>
+  <b>Periods</b> {{ job.count }}
+</p>
+<span class="pure-button-group" role="group">
+  <a class="pure-button" href="{% url 'period_list' job.pk %}">View</a>
+  <a class="pure-button" href="{% url 'job_update' job.pk %}">Update</a>
+  <a class="pure-button" href="{% url 'job_delete' job.pk %}">Delete</a>
+</span>
+{% empty %}
+<p>There are no jobs</p>
+{% endfor %}
+{% endblock content %}
