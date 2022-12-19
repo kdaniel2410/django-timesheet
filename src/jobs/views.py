@@ -36,6 +36,13 @@ class JobUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["title", "currency", "hourly_rate"]
     success_url = reverse_lazy("job_table")
 
+    def form_valid(self, form):
+        for period in form.instance.periods.all():
+            for shift in period.shifts.all():
+                    shift.income = shift.length * form.instance.hourly_rate
+                    shift.save()
+        return super(JobUpdateView, self).form_valid(form)
+
 
 class JobDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Job

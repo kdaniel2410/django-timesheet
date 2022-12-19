@@ -8,14 +8,6 @@ class Job(models.Model):
     currency = models.CharField(max_length=1, default="£")
     hourly_rate = models.FloatField(default=9.18)
 
-    def save(self, *args, **kwargs):
-        if self.pk:
-            for period in self.periods.all():
-                for shift in period.shifts.all():
-                    shift.income = shift.length * self.hourly_rate
-                    shift.save()
-        return super().save(*args, **kwargs)
-
     def __str__(self):
         return self.title
 
