@@ -31,11 +31,6 @@ class Shift(models.Model):
     start = models.DateTimeField()
     finish = models.DateTimeField()
     length = models.FloatField(default=0)
-    income = models.FloatField()
-
-    def save(self, *args, **kwargs):
-        self.income = self.length * self.period.job.hourly_rate
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.start.strftime("%a %d/%m/%y")

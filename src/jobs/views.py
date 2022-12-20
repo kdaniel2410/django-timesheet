@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, F
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -36,13 +36,6 @@ class JobUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["title", "currency", "hourly_rate"]
     success_url = reverse_lazy("job_table")
 
-    def form_valid(self, form):
-        for period in form.instance.periods.all():
-            for shift in period.shifts.all():
-                    shift.income = shift.length * form.instance.hourly_rate
-                    shift.save()
-        return super(JobUpdateView, self).form_valid(form)
-
 
 class JobDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Job
@@ -61,7 +54,7 @@ class PeriodListView(LoginRequiredMixin, ListView):
             .annotate(
                 count=Count("shifts"),
                 hours=Sum("shifts__length"),
-                income=Sum("shifts__income"),
+                income=Sum("shifts__length") * F("job__hourly_rate"),
             )
             .order_by("-cutoff")
         )
@@ -110,7 +103,9 @@ class ShiftListView(LoginRequiredMixin, ListView):
     context_object_name = "shifts"
 
     def get_queryset(self):
-        return super(ShiftListView, self).get_queryset().filter(period=self.kwargs.get("period_pk"))
+        return super(ShiftListView, self).get_queryset().filter(period=self.kwargs.get("period_pk")).annotate(
+            income=F("length") * F("period__job__hourly_rate")
+        )
 
 
 class ShiftCreateView(LoginRequiredMixin, CreateView):
