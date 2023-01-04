@@ -8,7 +8,7 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from . import models
+from . import models, forms
 
 
 class JobListView(LoginRequiredMixin, ListView):
@@ -61,8 +61,8 @@ class PeriodListView(LoginRequiredMixin, ListView):
 
 
 class PeriodCreateView(LoginRequiredMixin, CreateView):
-    model = models.Period
-    fields = ["cutoff", "payday"]
+    form_class = forms.PeriodForm
+    template_name = 'jobs/period_form.html'
 
     def form_valid(self, form):
         form.instance.job = models.Job.objects.get(
@@ -109,8 +109,8 @@ class ShiftListView(LoginRequiredMixin, ListView):
 
 
 class ShiftCreateView(LoginRequiredMixin, CreateView):
-    model = models.Shift
-    fields = ["start", "finish"]
+    form_class = forms.ShiftForm
+    template_name = 'jobs/shift_form.html'
 
     def form_valid(self, form):
         form.instance.period = models.Period.objects.get(
@@ -124,7 +124,8 @@ class ShiftCreateView(LoginRequiredMixin, CreateView):
 
 
 class ShiftCreateViewAlt(ShiftCreateView):
-    fields = ["start", "length"]
+    form_class = forms.ShiftFormAlt
+    template_name = 'jobs/shift_form.html'
 
     def form_valid(self, form):
         form.instance.finish = form.instance.start + \
